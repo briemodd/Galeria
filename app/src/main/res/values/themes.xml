@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Galeria" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#6082B6</item>
+        <item name="colorSecondary">#A7C7E7</item>
     </style>
 
     <style name="Theme.Galeria" parent="Base.Theme.Galeria" />
