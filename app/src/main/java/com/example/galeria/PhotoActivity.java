@@ -1,6 +1,8 @@
 package com.example.galeria;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
@@ -35,5 +37,13 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     public void setSupportActionBar(@Nullable androidx.appcompat.widget.Toolbar toolbar) {
         super.setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.photo_activity_tb, menu);
+        return true;
     }
 }

@@ -17,11 +17,10 @@
             android:parentActivityName=".MainActivity"
             android:exported="false"
             android:label="@string/title_activity_photo"
-            android:theme="@style/Theme.Galeria"
+            android:theme="@style/Theme.Galeria"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -31,6 +30,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <provider android:authorities="modesto.gabriele.galeria.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_SUPPORT_PATHS"
+                android:resource="@xml/file_paths">
+
+            </meta-data>
+        </provider>
+    </application>
 </manifest>
