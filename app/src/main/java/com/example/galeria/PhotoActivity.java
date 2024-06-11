@@ -1,8 +1,11 @@
 package com.example.galeria;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ImageView;
 import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
@@ -15,11 +18,21 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class PhotoActivity extends AppCompatActivity {
 
+    String photoPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_photo);
+
+        Intent i = getIntent();
+        photoPath = i.getStringExtra("photo_path");
+
+        Bitmap bitmap = Utils.getBitmap(photoPath);
+        ImageView imPhoto = findViewById(R.id.imPhoto);
+        imPhoto.setImageBitmap(bitmap);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

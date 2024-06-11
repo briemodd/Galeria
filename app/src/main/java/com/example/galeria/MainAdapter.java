@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class MainAdapter extends RecyclerView.Adapter {
 
     MainActivity mainActivity;
@@ -29,7 +31,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         ImageView imPhoto = holder.itemView.findViewById(R.id.imItem);
         int w = (int) mainActivity.getResources().getDimension(R.dimen.itemWidth);
 
@@ -40,7 +42,9 @@ public class MainAdapter extends RecyclerView.Adapter {
         imPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.startActivity(photos.get(position));
+
+                mainActivity.startPhotoActivity(photos.get(position));
+
             }
         });
 
@@ -48,6 +52,6 @@ public class MainAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return photos.size();
     }
 }
