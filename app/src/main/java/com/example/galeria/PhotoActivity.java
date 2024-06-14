@@ -2,6 +2,7 @@ package com.example.galeria;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,9 +13,12 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.io.File;
 
 public class PhotoActivity extends AppCompatActivity {
 
@@ -58,5 +62,14 @@ public class PhotoActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.photo_activity_tb, menu);
         return true;
+    }
+
+    void sharePhoto() {
+        // CODIGO PARA COMPARTILHAR A FOTO
+        Uri photoUri = FileProvider.getUriForFile(PhotoActivity.this, "modesto.gabriele.galeria.fileprovider", new File(photoPath));
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.putExtra(Intent.EXTRA_STREAM, photoUri);
+        i.setType("image/jpeg");
+        startActivity(i);
     }
 }

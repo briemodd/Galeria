@@ -1,6 +1,9 @@
 package com.example.galeria;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -75,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
         });
         Toolbar toolbar = findViewById(R.id.tbMain);
         setSupportActionBar(toolbar);
+
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.CAMERA);
+
+        checkForPermissions(permissions);
 
 
     }
@@ -198,7 +206,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(permissionsRejected.size() > 0) {
-
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
+                    new AlertDialog.Builder(MainActivity.this).setMessage("Para usar essa app é preciso conceder essas permissões").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]), RESULT_REQUEST_PERMISSION);
+                        }
+                    }).create().show();
+                }
+            }
         }
     }
 }
