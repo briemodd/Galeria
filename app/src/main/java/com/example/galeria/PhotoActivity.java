@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +35,7 @@ public class PhotoActivity extends AppCompatActivity {
         Intent i = getIntent();
         photoPath = i.getStringExtra("photo_path");
 
-        Bitmap bitmap = Utils.getBitmap(photoPath);
+        Bitmap bitmap = Util.getBitmap(photoPath);
         ImageView imPhoto = findViewById(R.id.imPhoto);
         imPhoto.setImageBitmap(bitmap);
 
@@ -62,6 +64,16 @@ public class PhotoActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.photo_activity_tb, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.opShare:
+                sharePhoto();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     void sharePhoto() {

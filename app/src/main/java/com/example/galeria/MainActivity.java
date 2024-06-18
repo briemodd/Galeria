@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         rvGallery.setAdapter(mainAdapter);
 
         float w = getResources().getDimension(R.dimen.itemWidth);
-        int numberOfColumns = Utils.calculateNoOfColumns(MainActivity.this, w);
+        int numberOfColumns = Util.calculateNoOfColumns(MainActivity.this, w);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, numberOfColumns);
 
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             f = createImageFile();
         } catch (IOException e){
-            Toast.makeTest(MainActivity.this, "Não foi possível criar o arquivo", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Não foi possível criar o arquivo", Toast.LENGTH_LONG).show();
             return;
         }
 

@@ -26,7 +26,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mainActivity);
-        View v = inflater.inflate(R.id.item_list, parent, false);
+        View v = inflater.inflate(R.id.list_item, parent, false);
         return new MyViewHolder(v);
     }
 
@@ -36,7 +36,7 @@ public class MainAdapter extends RecyclerView.Adapter {
         int w = (int) mainActivity.getResources().getDimension(R.dimen.itemWidth);
 
         int h = (int) mainActivity.getResources().getDimension(R.dimen.itemHeight);
-        Bitmap bitmap = Utils.getBitmap(photos.get(position), w, h);
+        Bitmap bitmap = Util.getBitmap(photos.get(position), w, h);
 
         imPhoto.setImageBitmap(bitmap);
         imPhoto.setOnClickListener(new View.OnClickListener() {
