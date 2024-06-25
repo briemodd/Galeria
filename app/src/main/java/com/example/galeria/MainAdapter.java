@@ -21,15 +21,16 @@ public class MainAdapter extends RecyclerView.Adapter {
         this.photos = photos;
     }
 
-
+    //metodo oncreateviewholder cria os elementos de interface para um item e guarda no container viewholder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mainActivity);
-        View v = inflater.inflate(R.id.list_item, parent, false);
+        View v = inflater.inflate(R.layout.list_item, parent, false);
         return new MyViewHolder(v);
     }
 
+    //recebe o viewholder criado por oncreateviewHolder e preenche os elemento de UI com os dados do item
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         ImageView imPhoto = holder.itemView.findViewById(R.id.imItem);
@@ -50,6 +51,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
     }
 
+    // informa quantos elementos a lista possui
     @Override
     public int getItemCount() {
         return photos.size();

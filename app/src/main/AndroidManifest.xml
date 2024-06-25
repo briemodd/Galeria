@@ -34,11 +34,11 @@
             </intent-filter>
         </activity>
 
-        <provider android:authorities="modesto.gabriele.galeria.fileprovider"
+        <provider android:authorities="com.example.galeria.fileprovider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_SUPPORT_PATHS"
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths">
 
             </meta-data>

@@ -16,12 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.GridLayout;
 import android.widget.Toast;
-import android.widget.Toolbar;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        //seta tbmain como actionbar padrao de main activity
+        Toolbar toolbar = findViewById(R.id.tbMain);
+        setSupportActionBar(toolbar);
+
         File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File[] files = dir.listFiles();
 
@@ -78,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Toolbar toolbar = findViewById(R.id.tbMain);
-        setSupportActionBar(toolbar);
+
 
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.CAMERA);
@@ -89,9 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setSupportActionBar(Toolbar toolbar) {
-    }
 
+    //cria as opçoes de menu definidas no arquivo de menu passado e as adiciona no menu da activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -100,23 +104,25 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //toda vez que o icone da camera for clicado, entao sera executado o codigo que dispara a camera do celular
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.opCamera:
-                dispatchTakePictureIntent();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.opCamera) {
+            dispatchTakePictureIntent();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
+    //recebe como parametro qual foto deverá ser aberto por photoactivity
+    //esse metodo é chamado dentro do método onbindviewholder (mainadapter) quando o usuário clica em uma foto
     public void startPhotoActivity(String photoPath) {
         Intent i = new Intent(MainActivity.this, PhotoActivity.class);
         i.putExtra("photo_path", photoPath);
         startActivity(i);
     }
 
+    //método que dispara a app de câmera
     private void dispatchTakePictureIntent() {
         File f = null;
 
@@ -130,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         currentPhotoPath = f.getAbsolutePath();
 
         if(f != null) {
-            Uri fUri = FileProvider.getUriForFile(MainActivity.this, "modesto.gabriele.galeria.fileprovider", f);
+            Uri fUri = FileProvider.getUriForFile(MainActivity.this, "com.example.galeria.fileprovider", f);
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
             i.putExtra(MediaStore.EXTRA_OUTPUT, fUri);
@@ -140,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //criação do arquivo que vai guardar a imagem
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -156,12 +163,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //caso a foto tenha sido tirada, o local dela é adicionado na lista de fotos
         if (requestCode == RESULT_TAKE_PICTURE) {
             if (resultCode == Activity.RESULT_OK) {
                 photos.add(currentPhotoPath);
 
                 mainAdapter.notifyItemInserted(photos.size()-1);
             }
+            //caso a foto não tenha sido tirada, o arquivo criado para conter a foto é excluído
             else {
                 File f = new File(currentPhotoPath);
                 f.delete();
@@ -169,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //checa as permissoes
     private void checkForPermissions(List<String> permissions) {
         List<String> permissionsNotGranted = new ArrayList<>();
 
@@ -185,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //pra saber se a permissao foi garantida
     public boolean hasPermission(String permission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return ActivityCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_GRANTED;
@@ -192,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    // esse método é chamado após o usuário conceder ou não as permissões requisitadas
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
